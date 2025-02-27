@@ -1,0 +1,317 @@
+create database fa1;
+use fa1;
+-- tables
+CREATE TABLE Customer(
+CustomerID INT PRIMARY KEY,
+CustomerName VARCHAR(100),
+Email VARCHAR(100) UNIQUE,
+PhoneNumbers TEXT,
+Address VARCHAR(255),
+DOB date
+);
+INSERT INTO Customer
+VALUES(23, 'Chetana Kharche', 'chetana.kharche23@pccoepune.org', '9987650182', '123 main gate', '2005-03-21'),
+(87, 'Shruti Kolte', 'shruti.kolte23@pccoepune.org', '9172331662', 'Ravet', '2005-06-05'),
+(54, 'Akanksha Kale', 'akanksha.kale23@pccoepune.org', '7766895409', 'Baramati', '2005-06-07'),
+(32, 'Rutuja Jagtap', 'rutuja.jagtap23@pccoepune.org', '9812564327', 'Akurdi', '2003-04-09');
+
+SELECT *FROM Customer;
+
+CREATE TABLE Orders(
+OrderID INT PRIMARY KEY,
+CustomerID INT NOT NULL,
+OrderDate DATE NOT NULL,
+TotalAmount INT,
+OrderStatus VARCHAR(50),
+FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+INSERT INTO Orders
+VALUES(21, 23, '2024-09-18', 765, 'Placed'),
+(23, 87, '2024-11-30', 123, 'Shipped'),
+(56, 54, '2024-02-03', 654, 'Delivered'),
+(43, 32, '2024-12-28', 435, 'Processing');
+
+SELECT *FROM Orders;
+
+CREATE TABLE PRODUCT(
+ProductID INT PRIMARY KEY,
+ProductName VARCHAR(100) NOT NULL,
+Product_Description TEXT,
+Price INT,
+StockQuantity INT,
+Rating FLOAT
+);
+
+INSERT INTO Product
+VALUES(12, 'Smartphone', 'Latest model with AI camera',765, 77, 4.5),
+(32, 'Laptop', 'Ultra-fast gaming laptop', 879, 12, 4.7),
+(10, 'Headaphones', 'Noise-cancelling wireless', 122, 76, 4.3),
+(87, 'Smartwatch', 'Health monitoring features', 655, 90, 4.6);
+SELECT *FROM PRODUCT;
+
+CREATE TABLE Order_item(
+OrderItemID INT PRIMARY KEY,
+ProductID INT NOT NULL,
+Quantity INT NOT NULL,
+PriceAtPurchase INT,
+FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+
+INSERT INTO Order_item
+VALUES(76, 12, 90, 54),
+(44, 32, 11, 43),
+(21, 10, 24, 65),
+(45, 87, 91, 09);
+
+SELECT *FROM Order_item;
+
+CREATE TABLE ShoppingCart(
+CartID INT PRIMARY KEY,
+ProductID INT NOT NULL,
+DateAdded Date,
+Cart_Status VARCHAR(50),
+FOREIGN KEY(ProductID) REFERENCES Product(ProductID)
+);
+INSERT INTO ShoppingCart
+VALUES(65, 12, '2024-09-15', 'Active'),
+(76, 32, '2025-01-07', 'Pending'),
+(12, 10, '2024-11-10', 'Ordered'),
+(44, 87, '2024-09-29', 'Active');
+SELECT *FROM ShoppingCart;
+
+CREATE TABLE Review(
+ReviewID int PRIMARY KEY,
+CustomerID int NOT NULL,
+ProductID int NOT NULL,
+ReviewText text,
+ReviewDate date NOT NULL,
+FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID),
+FOREIGN KEY(ProductID) REFERENCES Product(ProductID)
+);
+INSERT INTO Review
+VALUES(2, 23, 12, 'Great Product', '2024-10-04'),
+(1, 87, 32, 'Excellent Performance', '2023-04-02'),
+(3, 54, 10, 'Decent Quality', '2025-02-07'),
+(4, 32, 87, 'Good value for money', '2023-02-19');
+SELECT *FROM Review;
+
+CREATE TABLE Payment(
+PaymentID int PRIMARY KEY,
+OrderID int,
+AmountPaid int NOT NULL,
+PaymentDate date NOT NULL,
+PaymentMethod Varchar(50),
+FOREIGN KEY(OrderID) REFERENCES Orders(OrderID)
+);
+INSERT INTO Payment
+VALUES(47, 21, 80000, '2024-09-09', 'Credit Card'),
+(77, 23, 6500, '2021-10-11', 'Debit Card'),
+(67, 56, 7000, '2020-08-17', 'Cash'),
+(99, 43, 100000, '2025-02-18', 'UPI');
+SELECT *FROM Payment;
+
+CREATE TABLE Shipping(
+ShippingID int PRIMARY KEY,
+OrderID int NOT NULL,
+ShippingDate date NOT NULL,
+DeliveryDate date,
+Status varchar(50),
+FOREIGN KEY(OrderID)References Orders(OrderID)
+);
+INSERT INTO Shipping
+VALUES(765, 21, '2024-09-08', '2024-09-10', 'Shipped'),
+(555, 23, '2023-12-13', '2023-12-17', 'Processing'),
+(123, 56, '2025-01-31', '2025-02-13', 'Pending'),
+(264, 43, '2024-09-12', '2024-09-20', 'Delivered');
+SELECT *FROM Shipping;
+
+CREATE TABLE Suppliers(
+SupplierID int PRIMARY KEY,
+CompanyName VARCHAR(100),
+ContactName Varchar(100),
+ContactEmail Varchar(100) UNIQUE,
+ContactPhone VARCHAR(20),
+Address VARCHAR(255)
+);
+ALTER TABLE Suppliers ADD ProductID int;
+INSERT INTO Suppliers
+(SupplierID, CompanyName, ContactName, ContactEmail, ContactPhone, Address, ProductID)
+VALUES(31, 'TechDistributors', 'John', 'john@techdistributors.com', '1234567890', 'Mumbai', 12),
+(29, 'GadgetSupplyCo', 'Ellisha', 'ellisha@gadgetsupplyco.com', '5678901234', 'Pune', 32),
+(41, 'MobileMakers', 'Thomas', 'Thomas@mobilemakers.com', '9876512340', 'Nagpur', 10),
+(16, 'WearableTech', 'Ritesh', 'ritesh@wearableTech.com', '7865443321', 'Nashik', 87);
+SELECT *FROM Suppliers;
+
+ create table brand(
+     BrandId int primary key,
+     BrandName Varchar(100),
+ProductID int NOT NULL,
+WebsiteURL Varchar(225),
+    LogoURL varchar(255),
+    BrandDescription text
+    );
+INSERT INTO brand
+VALUES(13,'Orange', 12, 'https://www.orange.com','https://logo.orange.com','Premium nagpur oranges'),
+(24,'vivo', 32, 'https://www.vivo.com','https://logo.vivo.com','global leader in mobile technology'),
+(35,'1plus', 10, 'https://www.1plus.com','https://logo.1plus.com','innovative electronic industry'),
+(46,'hp', 87, 'https://www.hp.com','https://logo.hp.com','high performance computer devices');
+    SELECT *FROM brand;
+
+CREATE TABLE CartItems (
+    CartID INT,
+    ProductID INT,
+    Quantity INT NOT NULL,
+    AddedDate DATE NOT NULL,
+    PRIMARY KEY (CartID, ProductID),
+    FOREIGN KEY (CartID) REFERENCES ShoppingCart(CartID) ON DELETE CASCADE,
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID) ON DELETE CASCADE
+);
+INSERT INTO CartItems 
+VALUES(12, 12, 76, '2024-03-19'),
+(44, 32, 66, '2025-09-10'),
+(65, 10, 11, '2025-01-11'),
+(76, 87, 41, '2020-12-21');
+
+select *from CartItems;
+
+CREATE TABLE Bestseller (
+    BestsellerID INT PRIMARY KEY,
+    ProductID INT,
+    TotalSales INT,
+    PopularityScore FLOAT,
+    Rating FLOAT
+);
+
+INSERT INTO Bestseller VALUES
+(11, 12, 500, 9.8, 4.9),
+(21, 32, 300, 8.5, 4.7),
+(31, 10, 700, 9.2, 4.8),
+(41, 87, 200, 7.9, 4.6);
+ 
+ SELECT *FROM Bestseller;
+ 
+ CREATE TABLE Discount (
+    DiscountID INT PRIMARY KEY,
+    ProductID INT,
+    DiscountValue DECIMAL(5,2),
+    StartDate DATE,
+    EndDate DATE,
+    DiscountCode VARCHAR(20) UNIQUE,
+    ApplicableTo VARCHAR(100),
+    UsageLimit INT,
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID)
+);
+INSERT INTO Discount VALUES
+(1, 12, 10.00, '2024-02-01', '2024-02-10', 'DISCOUNT10', 'All Customers', 100),
+(2, 32, 15.00, '2024-02-05', '2024-02-15', 'SAVE15', 'New Users', 50),
+(3, 10, 5.00, '2024-02-07', '2024-02-20', 'OFFER5', 'Loyal Customers', 200),
+(4, 87, 20.00, '2024-02-10', '2024-02-25', 'BIGSALE20', 'All Customers', 75);
+
+SELECT *FROM Discount;
+
+CREATE TABLE Supplier_Stock (
+    SupplierID INT,
+    StockID INT,
+    Quantity INT NOT NULL,
+    DateSupplied DATE NOT NULL,
+    PRIMARY KEY (SupplierID, StockID),
+    FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID) ON DELETE CASCADE
+);
+INSERT INTO Supplier_Stock
+VALUES(71, 678, 90, '2023-02-11'),
+(29, 654, 80, '2024-10-10'),
+(41, 897, 200, '2023-12-11'),
+(16, 523, 100, '2025-02-14');
+
+ SELECT *FROM Supplier_stock;
+ -- clauses
+SELECT * FROM Product WHERE Rating > 4.5;
+
+SELECT CustomerID, COUNT(OrderID) AS TotalOrders 
+FROM Orders 
+GROUP BY CustomerID;
+
+SELECT CustomerID, SUM(TotalAmount) AS TotalSpent  
+FROM Orders  
+GROUP BY CustomerID  
+HAVING SUM(TotalAmount) > 500;
+
+SELECT * FROM Orders ORDER BY TotalAmount DESC;
+
+-- joins 
+SELECT C.CustomerID, C.CustomerName, O.OrderID, O.TotalAmount  
+FROM Customer C  
+INNER JOIN Orders O ON C.CustomerID = O.CustomerID;
+
+SELECT C.CustomerID, C.CustomerName, O.OrderID, O.TotalAmount  
+FROM Customer C  
+LEFT JOIN Orders O ON C.CustomerID = O.CustomerID;
+
+SELECT P.ProductID, P.ProductName, OI.OrderItemID, OI.Quantity, OI.PriceAtPurchase  
+FROM Product P  
+RIGHT JOIN Order_item OI ON P.ProductID = OI.ProductID;
+
+SELECT P.ProductID, P.ProductName, S.SupplierID, S.CompanyName  
+FROM Product P  
+LEFT JOIN Suppliers S ON P.ProductID = S.ProductID  
+UNION  
+SELECT P.ProductID, P.ProductName, S.SupplierID, S.CompanyName  
+FROM Product P  
+RIGHT JOIN Suppliers S ON P.ProductID = S.ProductID;
+
+-- aggregate function
+SELECT COUNT(CustomerID) FROM Customer;
+
+SELECT SUM(TotalAmount) FROM Orders;
+
+SELECT AVG(Price) FROM Product;
+
+SELECT MAX(TotalAmount) FROM Orders;
+
+SELECT MIN(Price) FROM Product;
+
+-- update function 
+UPDATE Orders 
+SET TotalAmount = 999 
+WHERE OrderID = 23;
+
+select *from Orders;
+-- set operations 
+SELECT ProductName FROM Product
+UNION
+SELECT ProductID FROM Bestseller;
+
+SELECT ProductName FROM Product
+UNION ALL
+SELECT ProductID FROM Bestseller;
+
+-- independent nested query
+
+SELECT CustomerID, CustomerName  
+FROM Customer  
+WHERE CustomerID IN (SELECT CustomerID FROM Orders);
+
+SELECT CustomerID, CustomerName  
+FROM Customer  
+WHERE CustomerID NOT IN (SELECT CustomerID FROM Product);
+
+SELECT ProductID, ProductName, Price  
+FROM Product  
+WHERE Price > ALL (SELECT DiscountValue FROM Discount);
+
+SELECT ProductID, ProductName, Price  
+FROM Product  
+WHERE Price > ANY (SELECT DiscountValue FROM Discount);
+
+SELECT CustomerID, CustomerName  
+FROM Customer  
+WHERE CustomerID NOT IN (SELECT CustomerID FROM Orders WHERE CustomerID IS NOT NULL);
+
+SELECT C.CustomerID, C.CustomerName  
+FROM Customer C  
+WHERE EXISTS (SELECT 1 FROM Orders O WHERE C.CustomerID = O.CustomerID);
+
+SELECT C.CustomerID, C.CustomerName  
+FROM Customer C  
+WHERE NOT EXISTS (SELECT 1 FROM Orders O WHERE C.CustomerID < O.CustomerID);
