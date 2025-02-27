@@ -315,3 +315,20 @@ WHERE EXISTS (SELECT 1 FROM Orders O WHERE C.CustomerID = O.CustomerID);
 SELECT C.CustomerID, C.CustomerName  
 FROM Customer C  
 WHERE NOT EXISTS (SELECT 1 FROM Orders O WHERE C.CustomerID < O.CustomerID);
+
+ALTER TABLE Product MODIFY Price DECIMAL(10,2);
+DESC Product;
+
+ALTER TABLE Customer RENAME COLUMN PhoneNumbers TO ContactNumber;
+select *from Customer;
+
+ALTER TABLE Orders RENAME TO OrderDetails;
+
+ALTER TABLE Orders ALTER COLUMN OrderStatus SET DEFAULT 'Pending';
+select *from Orders;
+
+ALTER TABLE Customer ADD PRIMARY KEY (CustomerID);
+select *from Customer;
+
+ALTER TABLE Orders ADD CONSTRAINT fk_customer FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID);
+select *from Orders;
