@@ -235,9 +235,12 @@ GROUP BY CustomerID;
 SELECT CustomerID, SUM(TotalAmount) AS TotalSpent  
 FROM Orders  
 GROUP BY CustomerID  
-HAVING SUM(TotalAmount) > 500;
+HAVING SUM(TotalAmount) > 500
+Limit 1000;
 
 SELECT * FROM Orders ORDER BY TotalAmount DESC;
+
+select distinct Price,ProductID from Product;
 
 -- joins 
 SELECT C.CustomerID, C.CustomerName, O.OrderID, O.TotalAmount  
